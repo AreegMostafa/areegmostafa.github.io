@@ -74,7 +74,8 @@
   .profiles a { display: inline-flex; align-items: center; gap: .35rem; font-family: var(--sans); font-size: .78rem; font-weight: 500;
                 color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; padding: .3rem .75rem; }
   .profiles a:hover { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.5); }
-  .profiles i { font-size: .95em; width: 1em; text-align: center; color: var(--blush); }
+  .profiles i { display: none; font-size: .95em; width: 1em; text-align: center; color: var(--blush); }
+  .icons-ok .profiles i { display: inline-block; }
   .side-nav { display: none; }
   .s-route, .s-casing, .s-origin, .s-hops { display: none; }
 
@@ -321,21 +322,14 @@
       <p class="hello">Hi, I'm Areeg.</p>
       <p class="lead">
         I am a PhD candidate in computer science at the University of Minnesota,
-        advised by Mohamed Mokbel, and a GAGE Fellow for Spring 2027. I work in
-        data management and data systems.
+        advised by Mohamed Mokbel. I work in data management and data systems.
       </p>
       <p class="lead">
-        I build data systems that give accurate answers even when the data falls
-        short. The only trip data cities still publish is coarse, zone-to-zone
-        summaries, and no method could turn those into accurate trip times.
-        My system CoarseETA does. It cuts error from 55.8% to 16.4% in San Francisco,
-        lands within a few points of a model trained on full trip-level data, and
-        adds only about 1&nbsp;ms per query.
-      </p>
-      <p class="lead">
-        I also lead a team of eight undergraduate researchers building ETAlon, a
-        benchmark that puts competing methods on equal footing. My dissertation
-        work won first place at the ACM SIGSPATIAL 2026 Student Research Competition.
+        I build data systems that deliver accurate answers even when the data
+        falls short. My work covers the whole pipeline: cleaning raw data at scale,
+        inferring what is missing, answering queries from coarse aggregates,
+        calibrating existing methods as black boxes, and benchmarking them on
+        equal footing.
       </p>
       <p class="note">My earlier work appears under the name Arig Mostafa.</p>
       <ul class="chips" aria-label="Research interests">
@@ -633,11 +627,11 @@
           </div>
         </li>
         <li>
-          <span class="when">Sep 2022 &ndash; Fall 2026</span>
+          <span class="when">Sep 2022 &ndash; Spring 2027</span>
           <div class="what">
             <span class="role">Teaching Assistant, Database Systems</span>
             <span class="org">University of Minnesota, Minneapolis</span>
-            <p>Graduate DBMS architecture and implementation (30 to 50 students) and undergraduate Practice of Database Systems (60 to 140). Modified PostgreSQL source code for course assignments.</p>
+            <p>Graduate DBMS architecture and implementation (30 to 50 students) and undergraduate Practice of Database Systems (60 to 140). Modified PostgreSQL source code for course assignments. Continuing at a 25% appointment in Spring 2027.</p>
           </div>
         </li>
         <li>
@@ -709,7 +703,18 @@
     mark('about');
   })();
 
-  // Filter publications by topic.
+  // Show the profile icons only once their font has loaded, so a blocked font never shows empty boxes.
+  (function () {
+    if (!document.fonts || !document.fonts.load) return;
+    Promise.all([
+      document.fonts.load('400 1em "Font Awesome 7 Brands"'),
+      document.fonts.load('900 1em "Font Awesome 7 Free"')
+    ]).then(function (sets) {
+      if (sets[0].length && sets[1].length) document.documentElement.classList.add('icons-ok');
+    }).catch(function () {});
+  })();
+
+  // Filter publications by type.
   (function () {
     var buttons = document.querySelectorAll('.filters button');
     buttons.forEach(function (b) {
